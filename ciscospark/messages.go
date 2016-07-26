@@ -29,22 +29,29 @@ type MessageQueryParams struct {
 
 // MessageRequest represents the Spark messages
 type MessageRequest struct {
-	RoomID        string `json:"roomId,omitempty"`
-	Text          string `json:"text,omitempty"`
-	Files         string `json:"files,omitempty"`
-	ToPersonID    string `json:"toPersonId,omitempty"`
-	ToPersonEmail string `json:"toPersonEmail,omitempty"`
+	RoomID        string   `json:"roomId,omitempty"`
+	Text          string   `json:"text,omitempty"`
+	Files         []string `json:"files,omitempty"`
+	ToPersonID    string   `json:"toPersonId,omitempty"`
+	ToPersonEmail string   `json:"toPersonEmail,omitempty"`
+	MarkDown      string   `json:"markdown,omitempty"`
+	HTML          string   `json:"html,omitempty"`
 }
 
 // Message ...
 type Message struct {
-	ID            string `json:"id,omitempty"`
-	RoomID        string `json:"roomId,omitempty"`
-	ToPersonEmail string `json:"toPersonEmail,omitempty"`
-	Text          string `json:"text,omitempty"`
-	PersonID      string `json:"personId,omitempty"`
-	PersonEmail   string `json:"personEmail,omitempty"`
-	Created       string `json:"created,omitempty"`
+	ID            string   `json:"id,omitempty"`
+	RoomID        string   `json:"roomId,omitempty"`
+	ToPersonEmail string   `json:"toPersonEmail,omitempty"`
+	ToPersonID    string   `json:"toPersonId,omitempty"`
+	Text          string   `json:"text,omitempty"`
+	PersonID      string   `json:"personId,omitempty"`
+	PersonEmail   string   `json:"personEmail,omitempty"`
+	Created       string   `json:"created,omitempty"`
+	MarkDown      string   `json:"markdown,omitempty"`
+	HTML          string   `json:"html,omitempty"`
+	Files         []string `json:"files,omitempty"`
+	RoomType      string   `json:"roomType,omitempty"`
 }
 
 type messagesRoot struct {

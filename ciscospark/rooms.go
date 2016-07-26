@@ -35,8 +35,7 @@ type RoomRequest struct {
 
 // UpdateRoomRequest represents the Spark rooms
 type UpdateRoomRequest struct {
-	Title    string `json:"title,omitempty"`
-	IsLocked bool   `json:"isLocked,omitempty"`
+	Title string `json:"title,omitempty"`
 }
 
 // Room ...

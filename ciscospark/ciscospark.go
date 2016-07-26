@@ -39,12 +39,13 @@ type Client struct {
 	Authorization string
 
 	// Services used for communicating with the API
-	Rooms           RoomsService
-	Messages        MessagesService
 	Memberships     MembershipsService
+	Messages        MessagesService
 	People          PeopleService
-	Teams           TeamsService
+	Rooms           RoomsService
 	TeamMemberships TeamMembershipsService
+	Teams           TeamsService
+	Webhooks        WebhooksService
 
 	// Optional function called after every successful request made to the Cisco Spark APIs
 	onRequestCompleted RequestCompletionCallback
@@ -125,6 +126,7 @@ func NewClient(httpClient *http.Client) *Client {
 	c.Rooms = &RoomsServiceOp{client: c}
 	c.TeamMemberships = &TeamMembershipsServiceOp{client: c}
 	c.Teams = &TeamsServiceOp{client: c}
+	c.Webhooks = &WebhooksServiceOp{client: c}
 
 	return c
 }
