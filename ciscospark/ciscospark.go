@@ -38,17 +38,23 @@ type Client struct {
 	// Authorization is the authentication token
 	Authorization string
 
-	// Services used for communicating with the API
-	Memberships     MembershipsService
-	Messages        MessagesService
-	People          PeopleService
-	Rooms           RoomsService
-	TeamMemberships TeamMembershipsService
-	Teams           TeamsService
-	Webhooks        WebhooksService
+	common service // Reuse a single struct instead of allocating one for each service on the heap
+
+	// Services used for communicating with the APIC-EM API
+	Memberships     *MembershipsService
+	Messages        *MessagesService
+	People          *PeopleService
+	Rooms           *RoomsService
+	TeamMemberships *TeamMembershipsService
+	Teams           *TeamsService
+	Webhooks        *WebhooksService
 
 	// Optional function called after every successful request made to the Cisco Spark APIs
 	onRequestCompleted RequestCompletionCallback
+}
+
+type service struct {
+	client *Client
 }
 
 // RequestCompletionCallback defines the type of the request callback function
@@ -120,13 +126,14 @@ func NewClient(httpClient *http.Client) *Client {
 	baseURL, _ := url.Parse(defaultBaseURL)
 
 	c := &Client{client: httpClient, BaseURL: baseURL, UserAgent: userAgent, Authorization: authorizationToken}
-	c.Memberships = &MembershipsServiceOp{client: c}
-	c.Messages = &MessagesServiceOp{client: c}
-	c.People = &PeopleServiceOp{client: c}
-	c.Rooms = &RoomsServiceOp{client: c}
-	c.TeamMemberships = &TeamMembershipsServiceOp{client: c}
-	c.Teams = &TeamsServiceOp{client: c}
-	c.Webhooks = &WebhooksServiceOp{client: c}
+	c.common.client = c
+	c.Memberships = (*MembershipsService)(&c.common)
+	c.Messages = (*MessagesService)(&c.common)
+	c.People = (*PeopleService)(&c.common)
+	c.Rooms = (*RoomsService)(&c.common)
+	c.TeamMemberships = (*TeamMembershipsService)(&c.common)
+	c.Teams = (*TeamsService)(&c.common)
+	c.Webhooks = (*WebhooksService)(&c.common)
 
 	return c
 }

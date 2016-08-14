@@ -4,21 +4,7 @@ const webhooksBasePath = "v1/webhooks"
 
 // WebhooksService is an interface for interfacing with the Webhooks
 // endpoints of the Cisco Spark API
-type WebhooksService interface {
-	Post(*WebhookRequest) (*Webhook, *Response, error)
-	Get(*WebhookQueryParams) ([]*Webhook, *Response, error)
-	GetWebhook(string) (*Webhook, *Response, error)
-	DeleteWebhook(string) (*Response, error)
-	UpdateWebhook(string, *UpdateWebhookRequest) (*Webhook, *Response, error)
-}
-
-// WebhooksServiceOp handles communication with the Webhooks related methods of
-// the Cisco Spark API.
-type WebhooksServiceOp struct {
-	client *Client
-}
-
-var _ WebhooksService = &WebhooksServiceOp{}
+type WebhooksService service
 
 // WebhookQueryParams ...
 type WebhookQueryParams struct {
@@ -64,7 +50,7 @@ func (r WebhookRequest) String() string {
 }
 
 // Get ....
-func (s *WebhooksServiceOp) Get(queryParams *WebhookQueryParams) ([]*Webhook, *Response, error) {
+func (s *WebhooksService) Get(queryParams *WebhookQueryParams) ([]*Webhook, *Response, error) {
 	path := webhooksBasePath
 	path, err := addOptions(path, queryParams)
 	if err != nil {
@@ -87,7 +73,7 @@ func (s *WebhooksServiceOp) Get(queryParams *WebhookQueryParams) ([]*Webhook, *R
 }
 
 // Post ....
-func (s *WebhooksServiceOp) Post(webhookRequest *WebhookRequest) (*Webhook, *Response, error) {
+func (s *WebhooksService) Post(webhookRequest *WebhookRequest) (*Webhook, *Response, error) {
 	path := webhooksBasePath
 
 	req, err := s.client.NewRequest("POST", path, webhookRequest)
@@ -105,7 +91,7 @@ func (s *WebhooksServiceOp) Post(webhookRequest *WebhookRequest) (*Webhook, *Res
 }
 
 // GetWebhook ....
-func (s *WebhooksServiceOp) GetWebhook(webhookID string) (*Webhook, *Response, error) {
+func (s *WebhooksService) GetWebhook(webhookID string) (*Webhook, *Response, error) {
 	path := webhooksBasePath + "/" + webhookID
 
 	req, err := s.client.NewRequest("GET", path, nil)
@@ -123,7 +109,7 @@ func (s *WebhooksServiceOp) GetWebhook(webhookID string) (*Webhook, *Response, e
 }
 
 // UpdateWebhook ....
-func (s *WebhooksServiceOp) UpdateWebhook(webhookID string, updateWebhookRequest *UpdateWebhookRequest) (*Webhook, *Response, error) {
+func (s *WebhooksService) UpdateWebhook(webhookID string, updateWebhookRequest *UpdateWebhookRequest) (*Webhook, *Response, error) {
 	path := webhooksBasePath + "/" + webhookID
 
 	req, err := s.client.NewRequest("PUT", path, updateWebhookRequest)
@@ -141,7 +127,7 @@ func (s *WebhooksServiceOp) UpdateWebhook(webhookID string, updateWebhookRequest
 }
 
 // DeleteWebhook ....
-func (s *WebhooksServiceOp) DeleteWebhook(webhookID string) (*Response, error) {
+func (s *WebhooksService) DeleteWebhook(webhookID string) (*Response, error) {
 	path := webhooksBasePath + "/" + webhookID
 
 	req, err := s.client.NewRequest("DELETE", path, nil)

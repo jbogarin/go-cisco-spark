@@ -2,23 +2,9 @@ package ciscospark
 
 const membershipsBasePath = "v1/memberships"
 
-// MembershipsService is an interface for interfacing with the Memberships
-// endpoints of the Cisco Spark API
-type MembershipsService interface {
-	Post(*MembershipRequest) (*Membership, *Response, error)
-	Get(*MembershipQueryParams) ([]*Membership, *Response, error)
-	GetMembership(string) (*Membership, *Response, error)
-	DeleteMembership(string) (*Response, error)
-	UpdateMembership(string, *UpdateMembershipRequest) (*Membership, *Response, error)
-}
-
-// MembershipsServiceOp handles communication with the Memberships related methods of
+// MembershipsService handles communication with the Memberships related methods of
 // the Cisco Spark API.
-type MembershipsServiceOp struct {
-	client *Client
-}
-
-var _ MembershipsService = &MembershipsServiceOp{}
+type MembershipsService service
 
 // MembershipQueryParams ...
 type MembershipQueryParams struct {
@@ -65,7 +51,7 @@ func (r MembershipRequest) String() string {
 }
 
 // Get ....
-func (s *MembershipsServiceOp) Get(queryParams *MembershipQueryParams) ([]*Membership, *Response, error) {
+func (s *MembershipsService) Get(queryParams *MembershipQueryParams) ([]*Membership, *Response, error) {
 	path := membershipsBasePath
 	path, err := addOptions(path, queryParams)
 	if err != nil {
@@ -88,7 +74,7 @@ func (s *MembershipsServiceOp) Get(queryParams *MembershipQueryParams) ([]*Membe
 }
 
 // Post ....
-func (s *MembershipsServiceOp) Post(membershipRequest *MembershipRequest) (*Membership, *Response, error) {
+func (s *MembershipsService) Post(membershipRequest *MembershipRequest) (*Membership, *Response, error) {
 	path := membershipsBasePath
 
 	req, err := s.client.NewRequest("POST", path, membershipRequest)
@@ -106,7 +92,7 @@ func (s *MembershipsServiceOp) Post(membershipRequest *MembershipRequest) (*Memb
 }
 
 // GetMembership ....
-func (s *MembershipsServiceOp) GetMembership(membershipID string) (*Membership, *Response, error) {
+func (s *MembershipsService) GetMembership(membershipID string) (*Membership, *Response, error) {
 	path := membershipsBasePath + "/" + membershipID
 
 	req, err := s.client.NewRequest("GET", path, nil)
@@ -124,7 +110,7 @@ func (s *MembershipsServiceOp) GetMembership(membershipID string) (*Membership, 
 }
 
 // UpdateMembership ....
-func (s *MembershipsServiceOp) UpdateMembership(membershipID string, updateMembershipRequest *UpdateMembershipRequest) (*Membership, *Response, error) {
+func (s *MembershipsService) UpdateMembership(membershipID string, updateMembershipRequest *UpdateMembershipRequest) (*Membership, *Response, error) {
 	path := membershipsBasePath + "/" + membershipID
 
 	req, err := s.client.NewRequest("PUT", path, updateMembershipRequest)
@@ -142,7 +128,7 @@ func (s *MembershipsServiceOp) UpdateMembership(membershipID string, updateMembe
 }
 
 // DeleteMembership ....
-func (s *MembershipsServiceOp) DeleteMembership(membershipID string) (*Response, error) {
+func (s *MembershipsService) DeleteMembership(membershipID string) (*Response, error) {
 	path := membershipsBasePath + "/" + membershipID
 
 	req, err := s.client.NewRequest("DELETE", path, nil)

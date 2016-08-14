@@ -2,22 +2,9 @@ package ciscospark
 
 const messagesBasePath = "v1/messages"
 
-// MessagesService is an interface for interfacing with the Messages
-// endpoints of the Cisco Spark API
-type MessagesService interface {
-	Post(*MessageRequest) (*Message, *Response, error)
-	Get(*MessageQueryParams) ([]*Message, *Response, error)
-	GetMessage(string) (*Message, *Response, error)
-	DeleteMessage(string) (*Response, error)
-}
-
-// MessagesServiceOp handles communication with the Messages related methods of
+// MessagesService handles communication with the Messages related methods of
 // the Cisco Spark API.
-type MessagesServiceOp struct {
-	client *Client
-}
-
-var _ MessagesService = &MessagesServiceOp{}
+type MessagesService service
 
 // MessageQueryParams ...
 type MessageQueryParams struct {
@@ -67,7 +54,7 @@ func (r MessageRequest) String() string {
 }
 
 // Get ....
-func (s *MessagesServiceOp) Get(queryParams *MessageQueryParams) ([]*Message, *Response, error) {
+func (s *MessagesService) Get(queryParams *MessageQueryParams) ([]*Message, *Response, error) {
 	path := messagesBasePath
 	path, err := addOptions(path, queryParams)
 	if err != nil {
@@ -90,7 +77,7 @@ func (s *MessagesServiceOp) Get(queryParams *MessageQueryParams) ([]*Message, *R
 }
 
 // Post ....
-func (s *MessagesServiceOp) Post(messageRequest *MessageRequest) (*Message, *Response, error) {
+func (s *MessagesService) Post(messageRequest *MessageRequest) (*Message, *Response, error) {
 	path := messagesBasePath
 
 	req, err := s.client.NewRequest("POST", path, messageRequest)
@@ -108,7 +95,7 @@ func (s *MessagesServiceOp) Post(messageRequest *MessageRequest) (*Message, *Res
 }
 
 // GetMessage ....
-func (s *MessagesServiceOp) GetMessage(messageID string) (*Message, *Response, error) {
+func (s *MessagesService) GetMessage(messageID string) (*Message, *Response, error) {
 	path := messagesBasePath + "/" + messageID
 
 	req, err := s.client.NewRequest("GET", path, nil)
@@ -126,7 +113,7 @@ func (s *MessagesServiceOp) GetMessage(messageID string) (*Message, *Response, e
 }
 
 // DeleteMessage ....
-func (s *MessagesServiceOp) DeleteMessage(messageID string) (*Response, error) {
+func (s *MessagesService) DeleteMessage(messageID string) (*Response, error) {
 	path := messagesBasePath + "/" + messageID
 
 	req, err := s.client.NewRequest("DELETE", path, nil)

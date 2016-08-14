@@ -4,21 +4,7 @@ const teamMembershipsBasePath = "v1/team/memberships"
 
 // TeamMembershipsService is an interface for interfacing with the TeamMemberships
 // endpoints of the Cisco Spark API
-type TeamMembershipsService interface {
-	DeleteTeamMembership(string) (*Response, error)
-	Get(*TeamMembershipQueryParams) ([]*TeamMembership, *Response, error)
-	GetTeamMembership(string) (*TeamMembership, *Response, error)
-	Post(*TeamMembershipRequest) (*TeamMembership, *Response, error)
-	UpdateTeamMembership(string, *UpdateTeamMembershipRequest) (*TeamMembership, *Response, error)
-}
-
-// TeamMembershipsServiceOp handles communication with the TeamMemberships related methods of
-// the Cisco Spark API.
-type TeamMembershipsServiceOp struct {
-	client *Client
-}
-
-var _ TeamMembershipsService = &TeamMembershipsServiceOp{}
+type TeamMembershipsService service
 
 // TeamMembershipQueryParams ...
 type TeamMembershipQueryParams struct {
@@ -62,7 +48,7 @@ func (r TeamMembershipRequest) String() string {
 }
 
 // Get ....
-func (s *TeamMembershipsServiceOp) Get(queryParams *TeamMembershipQueryParams) ([]*TeamMembership, *Response, error) {
+func (s *TeamMembershipsService) Get(queryParams *TeamMembershipQueryParams) ([]*TeamMembership, *Response, error) {
 	path := teamMembershipsBasePath
 	path, err := addOptions(path, queryParams)
 	if err != nil {
@@ -85,7 +71,7 @@ func (s *TeamMembershipsServiceOp) Get(queryParams *TeamMembershipQueryParams) (
 }
 
 // Post ....
-func (s *TeamMembershipsServiceOp) Post(teamRequest *TeamMembershipRequest) (*TeamMembership, *Response, error) {
+func (s *TeamMembershipsService) Post(teamRequest *TeamMembershipRequest) (*TeamMembership, *Response, error) {
 	path := teamMembershipsBasePath
 
 	req, err := s.client.NewRequest("POST", path, teamRequest)
@@ -103,7 +89,7 @@ func (s *TeamMembershipsServiceOp) Post(teamRequest *TeamMembershipRequest) (*Te
 }
 
 // GetTeamMembership ....
-func (s *TeamMembershipsServiceOp) GetTeamMembership(teamID string) (*TeamMembership, *Response, error) {
+func (s *TeamMembershipsService) GetTeamMembership(teamID string) (*TeamMembership, *Response, error) {
 	path := teamMembershipsBasePath + "/" + teamID
 
 	req, err := s.client.NewRequest("GET", path, nil)
@@ -121,7 +107,7 @@ func (s *TeamMembershipsServiceOp) GetTeamMembership(teamID string) (*TeamMember
 }
 
 // UpdateTeamMembership ....
-func (s *TeamMembershipsServiceOp) UpdateTeamMembership(teamID string, updateTeamMembershipRequest *UpdateTeamMembershipRequest) (*TeamMembership, *Response, error) {
+func (s *TeamMembershipsService) UpdateTeamMembership(teamID string, updateTeamMembershipRequest *UpdateTeamMembershipRequest) (*TeamMembership, *Response, error) {
 	path := teamMembershipsBasePath + "/" + teamID
 
 	req, err := s.client.NewRequest("PUT", path, updateTeamMembershipRequest)
@@ -139,7 +125,7 @@ func (s *TeamMembershipsServiceOp) UpdateTeamMembership(teamID string, updateTea
 }
 
 // DeleteTeamMembership ....
-func (s *TeamMembershipsServiceOp) DeleteTeamMembership(teamID string) (*Response, error) {
+func (s *TeamMembershipsService) DeleteTeamMembership(teamID string) (*Response, error) {
 	path := teamMembershipsBasePath + "/" + teamID
 
 	req, err := s.client.NewRequest("DELETE", path, nil)

@@ -4,21 +4,7 @@ const roomsBasePath = "v1/rooms"
 
 // RoomsService is an interface for interfacing with the Rooms
 // endpoints of the Cisco Spark API
-type RoomsService interface {
-	DeleteRoom(string) (*Response, error)
-	Get(*RoomQueryParams) ([]*Room, *Response, error)
-	GetRoom(string) (*Room, *Response, error)
-	Post(*RoomRequest) (*Room, *Response, error)
-	UpdateRoom(string, *UpdateRoomRequest) (*Room, *Response, error)
-}
-
-// RoomsServiceOp handles communication with the Rooms related methods of
-// the Cisco Spark API.
-type RoomsServiceOp struct {
-	client *Client
-}
-
-var _ RoomsService = &RoomsServiceOp{}
+type RoomsService service
 
 // RoomQueryParams ...
 type RoomQueryParams struct {
@@ -62,7 +48,7 @@ func (r RoomRequest) String() string {
 }
 
 // Get ....
-func (s *RoomsServiceOp) Get(queryParams *RoomQueryParams) ([]*Room, *Response, error) {
+func (s *RoomsService) Get(queryParams *RoomQueryParams) ([]*Room, *Response, error) {
 	path := roomsBasePath
 	path, err := addOptions(path, queryParams)
 	if err != nil {
@@ -85,7 +71,7 @@ func (s *RoomsServiceOp) Get(queryParams *RoomQueryParams) ([]*Room, *Response, 
 }
 
 // Post ....
-func (s *RoomsServiceOp) Post(roomRequest *RoomRequest) (*Room, *Response, error) {
+func (s *RoomsService) Post(roomRequest *RoomRequest) (*Room, *Response, error) {
 	path := roomsBasePath
 
 	req, err := s.client.NewRequest("POST", path, roomRequest)
@@ -103,7 +89,7 @@ func (s *RoomsServiceOp) Post(roomRequest *RoomRequest) (*Room, *Response, error
 }
 
 // GetRoom ....
-func (s *RoomsServiceOp) GetRoom(roomID string) (*Room, *Response, error) {
+func (s *RoomsService) GetRoom(roomID string) (*Room, *Response, error) {
 	path := roomsBasePath + "/" + roomID
 
 	req, err := s.client.NewRequest("GET", path, nil)
@@ -121,7 +107,7 @@ func (s *RoomsServiceOp) GetRoom(roomID string) (*Room, *Response, error) {
 }
 
 // UpdateRoom ....
-func (s *RoomsServiceOp) UpdateRoom(roomID string, updateRoomRequest *UpdateRoomRequest) (*Room, *Response, error) {
+func (s *RoomsService) UpdateRoom(roomID string, updateRoomRequest *UpdateRoomRequest) (*Room, *Response, error) {
 	path := roomsBasePath + "/" + roomID
 
 	req, err := s.client.NewRequest("PUT", path, updateRoomRequest)
@@ -139,7 +125,7 @@ func (s *RoomsServiceOp) UpdateRoom(roomID string, updateRoomRequest *UpdateRoom
 }
 
 // DeleteRoom ....
-func (s *RoomsServiceOp) DeleteRoom(roomID string) (*Response, error) {
+func (s *RoomsService) DeleteRoom(roomID string) (*Response, error) {
 	path := roomsBasePath + "/" + roomID
 
 	req, err := s.client.NewRequest("DELETE", path, nil)

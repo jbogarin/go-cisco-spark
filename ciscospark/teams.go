@@ -4,21 +4,7 @@ const teamsBasePath = "v1/teams"
 
 // TeamsService is an interface for interfacing with the Teams
 // endpoints of the Cisco Spark API
-type TeamsService interface {
-	Post(*TeamRequest) (*Team, *Response, error)
-	Get(*TeamQueryParams) ([]*Team, *Response, error)
-	GetTeam(string) (*Team, *Response, error)
-	DeleteTeam(string) (*Response, error)
-	UpdateTeam(string, *UpdateTeamRequest) (*Team, *Response, error)
-}
-
-// TeamsServiceOp handles communication with the Teams related methods of
-// the Cisco Spark API.
-type TeamsServiceOp struct {
-	client *Client
-}
-
-var _ TeamsService = &TeamsServiceOp{}
+type TeamsService service
 
 // TeamQueryParams ...
 type TeamQueryParams struct {
@@ -55,7 +41,7 @@ func (r TeamRequest) String() string {
 }
 
 // Get ....
-func (s *TeamsServiceOp) Get(queryParams *TeamQueryParams) ([]*Team, *Response, error) {
+func (s *TeamsService) Get(queryParams *TeamQueryParams) ([]*Team, *Response, error) {
 	path := teamsBasePath
 	path, err := addOptions(path, queryParams)
 	if err != nil {
@@ -78,7 +64,7 @@ func (s *TeamsServiceOp) Get(queryParams *TeamQueryParams) ([]*Team, *Response, 
 }
 
 // Post ....
-func (s *TeamsServiceOp) Post(teamRequest *TeamRequest) (*Team, *Response, error) {
+func (s *TeamsService) Post(teamRequest *TeamRequest) (*Team, *Response, error) {
 	path := teamsBasePath
 
 	req, err := s.client.NewRequest("POST", path, teamRequest)
@@ -96,7 +82,7 @@ func (s *TeamsServiceOp) Post(teamRequest *TeamRequest) (*Team, *Response, error
 }
 
 // GetTeam ....
-func (s *TeamsServiceOp) GetTeam(teamID string) (*Team, *Response, error) {
+func (s *TeamsService) GetTeam(teamID string) (*Team, *Response, error) {
 	path := teamsBasePath + "/" + teamID
 
 	req, err := s.client.NewRequest("GET", path, nil)
@@ -114,7 +100,7 @@ func (s *TeamsServiceOp) GetTeam(teamID string) (*Team, *Response, error) {
 }
 
 // UpdateTeam ....
-func (s *TeamsServiceOp) UpdateTeam(teamID string, updateTeamRequest *UpdateTeamRequest) (*Team, *Response, error) {
+func (s *TeamsService) UpdateTeam(teamID string, updateTeamRequest *UpdateTeamRequest) (*Team, *Response, error) {
 	path := teamsBasePath + "/" + teamID
 
 	req, err := s.client.NewRequest("PUT", path, updateTeamRequest)
@@ -132,7 +118,7 @@ func (s *TeamsServiceOp) UpdateTeam(teamID string, updateTeamRequest *UpdateTeam
 }
 
 // DeleteTeam ....
-func (s *TeamsServiceOp) DeleteTeam(teamID string) (*Response, error) {
+func (s *TeamsService) DeleteTeam(teamID string) (*Response, error) {
 	path := teamsBasePath + "/" + teamID
 
 	req, err := s.client.NewRequest("DELETE", path, nil)

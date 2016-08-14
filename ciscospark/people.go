@@ -4,19 +4,7 @@ const peopleBasePath = "v1/people"
 
 // PeopleService is an interface for interfacing with the People
 // endpoints of the Cisco Spark API
-type PeopleService interface {
-	Get(*GetPeopleQueryParams) ([]*Person, *Response, error)
-	GetPerson(string) (*Person, *Response, error)
-	GetMe() (*Person, *Response, error)
-}
-
-// PeopleServiceOp handles communication with the People related methods of
-// the Cisco Spark API.
-type PeopleServiceOp struct {
-	client *Client
-}
-
-var _ PeopleService = &PeopleServiceOp{}
+type PeopleService service
 
 // GetPeopleQueryParams ...
 type GetPeopleQueryParams struct {
@@ -43,7 +31,7 @@ func (r Person) String() string {
 }
 
 // Get ....
-func (s *PeopleServiceOp) Get(queryParams *GetPeopleQueryParams) ([]*Person, *Response, error) {
+func (s *PeopleService) Get(queryParams *GetPeopleQueryParams) ([]*Person, *Response, error) {
 	path := peopleBasePath
 	path, err := addOptions(path, queryParams)
 	if err != nil {
@@ -65,7 +53,7 @@ func (s *PeopleServiceOp) Get(queryParams *GetPeopleQueryParams) ([]*Person, *Re
 }
 
 // GetPerson ....
-func (s *PeopleServiceOp) GetPerson(personID string) (*Person, *Response, error) {
+func (s *PeopleService) GetPerson(personID string) (*Person, *Response, error) {
 	path := peopleBasePath + "/" + personID
 
 	req, err := s.client.NewRequest("GET", path, nil)
@@ -83,7 +71,7 @@ func (s *PeopleServiceOp) GetPerson(personID string) (*Person, *Response, error)
 }
 
 // GetMe ....
-func (s *PeopleServiceOp) GetMe() (*Person, *Response, error) {
+func (s *PeopleService) GetMe() (*Person, *Response, error) {
 	path := peopleBasePath + "/me"
 
 	req, err := s.client.NewRequest("GET", path, nil)
