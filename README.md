@@ -1,5 +1,5 @@
 # go-cisco-spark #
-go-cisco-spark is a Go client library for accessing the [Cisco Spark API] (https://developer.ciscospark.com/index.html).
+go-cisco-spark is a Go client library for the [Cisco Spark API] (https://developer.ciscospark.com/index.html).
 
 ## Usage ##
 

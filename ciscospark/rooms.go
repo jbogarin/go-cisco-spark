@@ -28,7 +28,7 @@ type UpdateRoomRequest struct {
 type Room struct {
 	ID           string `json:"id,omitempty"`
 	Title        string `json:"title,omitempty"`
-	Type         string `json:"roomId,omitempty"`
+	Type         string `json:"type,omitempty"`
 	IsLocked     bool   `json:"isLocked,omitempty"`
 	TeamID       string `json:"teamId,omitempty"`
 	LastActivity string `json:"lastActivity,omitempty"`
