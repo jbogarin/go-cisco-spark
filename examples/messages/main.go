@@ -84,6 +84,8 @@ func main() {
 	}
 	fmt.Println("GET <ID>:", htmlMessageGet.ID, htmlMessageGet.Text, htmlMessageGet.Created)
 
+	// DELETE messages<ID>
+
 	resp, err := sparkClient.Messages.DeleteMessage(newTextMessage.ID)
 	if err != nil {
 		log.Fatal(err)
