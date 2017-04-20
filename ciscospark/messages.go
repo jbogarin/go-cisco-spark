@@ -8,10 +8,11 @@ type MessagesService service
 
 // MessageQueryParams ...
 type MessageQueryParams struct {
-	RoomID        string `url:"roomId,omitempty"`
-	Before        string `url:"before,omitempty"`
-	BeforeMessage string `url:"beforeMessage,omitempty"`
-	Max           int    `url:"max,omitempty"`
+	RoomID          string `url:"roomId,omitempty"`
+	Before          string `url:"before,omitempty"`
+	BeforeMessage   string `url:"beforeMessage,omitempty"`
+	Max             int    `url:"max,omitempty"`
+	MentionedPeople string `url:"mentionedPeople,omitempty"`
 }
 
 // MessageRequest represents the Spark messages
@@ -22,23 +23,22 @@ type MessageRequest struct {
 	ToPersonID    string   `json:"toPersonId,omitempty"`
 	ToPersonEmail string   `json:"toPersonEmail,omitempty"`
 	MarkDown      string   `json:"markdown,omitempty"`
-	HTML          string   `json:"html,omitempty"`
 }
 
 // Message ...
 type Message struct {
-	ID            string   `json:"id,omitempty"`
-	RoomID        string   `json:"roomId,omitempty"`
-	ToPersonEmail string   `json:"toPersonEmail,omitempty"`
-	ToPersonID    string   `json:"toPersonId,omitempty"`
-	Text          string   `json:"text,omitempty"`
-	PersonID      string   `json:"personId,omitempty"`
-	PersonEmail   string   `json:"personEmail,omitempty"`
-	Created       string   `json:"created,omitempty"`
-	MarkDown      string   `json:"markdown,omitempty"`
-	HTML          string   `json:"html,omitempty"`
-	Files         []string `json:"files,omitempty"`
-	RoomType      string   `json:"roomType,omitempty"`
+	ID              string   `json:"id,omitempty"`
+	RoomID          string   `json:"roomId,omitempty"`
+	ToPersonEmail   string   `json:"toPersonEmail,omitempty"`
+	ToPersonID      string   `json:"toPersonId,omitempty"`
+	Text            string   `json:"text,omitempty"`
+	PersonID        string   `json:"personId,omitempty"`
+	PersonEmail     string   `json:"personEmail,omitempty"`
+	Created         string   `json:"created,omitempty"`
+	MarkDown        string   `json:"markdown,omitempty"`
+	Files           []string `json:"files,omitempty"`
+	RoomType        string   `json:"roomType,omitempty"`
+	MentionedPeople []string `json:"mentionedPeople,omitempty"`
 }
 
 type messagesRoot struct {

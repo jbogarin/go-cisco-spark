@@ -18,8 +18,17 @@ type Person struct {
 	ID          string   `json:"id,omitempty"`
 	Emails      []string `json:"emails,omitempty"`
 	DisplayName string   `json:"displayName,omitempty"`
+	FirstName   string   `json:"firstName,omitempty"`
+	LastName    string   `json:"lastName,omitempty"`
 	Avatar      string   `json:"avatar,omitempty"`
 	Created     string   `json:"created,omitempty"`
+	OrgID       string   `json:"orgId,omitempty"`
+	Roles       []string `json:"roles,omitempty"`
+	Licenses    []string `json:"licenses,omitempty"`
+	TimeZone    string   `json:"timezone,omitempty"`
+	Status      string   `json:"status,omitempty"`
+	NickName    string   `json:"nickName,omitempty"`
+	Type        string   `json:"type,omitempty"`
 }
 
 type peopleRoot struct {

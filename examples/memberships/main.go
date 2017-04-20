@@ -68,11 +68,11 @@ func main() {
 
 	fmt.Println("GET <ID>:", membership.ID, membership.PersonEmail, membership.IsModerator, membership.Created)
 
+	// PUT memberships/<ID>
+
 	updateMembershipRequest := &ciscospark.UpdateMembershipRequest{
 		IsModerator: false,
 	}
-
-	// PUT memberships/<ID>
 
 	updatedMembership, _, err := sparkClient.Memberships.UpdateMembership(testMembership.ID, updateMembershipRequest)
 	if err != nil {

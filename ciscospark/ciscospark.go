@@ -48,6 +48,9 @@ type Client struct {
 	TeamMemberships *TeamMembershipsService
 	Teams           *TeamsService
 	Webhooks        *WebhooksService
+	Organizations   *OrganizationsService
+	Licenses        *LicensesService
+	Roles           *RolesService
 
 	// Optional function called after every successful request made to the Cisco Spark APIs
 	onRequestCompleted RequestCompletionCallback
@@ -134,6 +137,9 @@ func NewClient(httpClient *http.Client) *Client {
 	c.TeamMemberships = (*TeamMembershipsService)(&c.common)
 	c.Teams = (*TeamsService)(&c.common)
 	c.Webhooks = (*WebhooksService)(&c.common)
+	c.Organizations = (*OrganizationsService)(&c.common)
+	c.Licenses = (*LicensesService)(&c.common)
+	c.Roles = (*RolesService)(&c.common)
 
 	return c
 }
