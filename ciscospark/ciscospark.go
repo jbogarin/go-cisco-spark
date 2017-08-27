@@ -274,8 +274,8 @@ func (c *Client) Do(req *http.Request, v interface{}) (*Response, error) {
 }
 
 func (r *ErrorResponse) Error() string {
-	return fmt.Sprintf("%v %v: %d %v",
-		r.HTTPResponse.Request.Method, r.HTTPResponse.Request.URL, r.HTTPResponse.StatusCode, r.Message)
+	return fmt.Sprintf("%v %v: %d %v - %v",
+		r.HTTPResponse.Request.Method, r.HTTPResponse.Request.URL, r.HTTPResponse.StatusCode, r.Message, r.TrackingID)
 }
 
 // CheckResponse checks the API response for errors, and returns them if present. A response is considered an
